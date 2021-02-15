@@ -42,11 +42,11 @@ function fromS(s, format = "mm:ss") {
   return fromMs(ms, format)
 }
 
-function toMs(time, format = "mm:ss") {
+function toMs(time, format = "mm:ss", ms = 1000) {
   let re
 
-  if (["mm:ss", "mm:ss.sss", "hh:mm:ss", "hh:mm:ss.sss"].includes(format)) {
-    re = /^(-)?(?:(\d\d+):)?(\d\d):(\d\d)(\.\d+)?$/
+  if (["mm:ss", "mm:ss.sss", "hh:mm:ss", "h:mm:ss.ss", "hh:mm:ss.sss"].includes(format)) {
+    re = /^(-)?(?:(\d+):)?(\d\d):(\d\d)(\.\d+)?$/
   } else if (format === "hh:mm") {
     re = /^(-)?(\d\d):(\d\d)(?::(\d\d)(?:(\.\d+))?)?$/
   } else {
@@ -60,7 +60,7 @@ function toMs(time, format = "mm:ss") {
   let hours = result[2] | 0
   let minutes = result[3] | 0
   let seconds = result[4] | 0
-  let miliseconds = Math.floor((1000 * result[5]) | 0)
+  let miliseconds = Math.floor((ms * result[5]) | 0)
 
   if (minutes > 60 || seconds > 60) {
     throw new Error()
@@ -78,8 +78,17 @@ function formatTime(time, format) {
   let showMs
   let showSc
   let showHr
+  let hzero = 2
+  let mszero = 3
 
   switch (format.toLowerCase()) {
+    case "h:mm:ss.ss":
+      showMs = true
+      showSc = true
+      showHr = true
+      hzero = 1
+      mszero = 2
+      break
     case "hh:mm:ss.sss":
       showMs = true
       showSc = true
@@ -109,10 +118,10 @@ function formatTime(time, format) {
       throw new Error(TIME_FORMAT_ERRMSG)
   }
 
-  let hh = zeroFill(2, time.hours)
+  let hh = zeroFill(hzero, time.hours)
   let mm = zeroFill(2, time.minutes)
   let ss = zeroFill(2, time.seconds)
-  let sss = zeroFill(3, time.miliseconds)
+  let sss = zeroFill(mszero, time.miliseconds)
 
   return (
     (time.negative ? "-" : "") +
@@ -128,9 +137,4 @@ function formatTime(time, format) {
   )
 }
 
-export default {
-  fromMs,
-  fromS,
-  toMs,
-  toS,
-}
+export { fromMs, fromS, toMs, toS }
