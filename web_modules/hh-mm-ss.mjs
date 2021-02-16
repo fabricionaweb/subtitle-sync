@@ -42,7 +42,7 @@ function fromS(s, format = "mm:ss") {
   return fromMs(ms, format)
 }
 
-function toMs(time, format = "mm:ss", ms = 1000) {
+function toMs(time, format = "mm:ss") {
   let re
 
   if (["mm:ss", "mm:ss.sss", "hh:mm:ss", "h:mm:ss.ss", "hh:mm:ss.sss"].includes(format)) {
@@ -60,7 +60,7 @@ function toMs(time, format = "mm:ss", ms = 1000) {
   let hours = result[2] | 0
   let minutes = result[3] | 0
   let seconds = result[4] | 0
-  let miliseconds = Math.floor((ms * result[5]) | 0)
+  let miliseconds = Math.floor((1000 * result[5]) | 0)
 
   if (minutes > 60 || seconds > 60) {
     throw new Error()
@@ -121,7 +121,7 @@ function formatTime(time, format) {
   let hh = zeroFill(hzero, time.hours)
   let mm = zeroFill(2, time.minutes)
   let ss = zeroFill(2, time.seconds)
-  let sss = zeroFill(mszero, time.miliseconds)
+  let sss = zeroFill(mszero, time.miliseconds).substring(0, mszero)
 
   return (
     (time.negative ? "-" : "") +

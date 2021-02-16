@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     URL.revokeObjectURL(href)
   }
 
-  const sync = str => fromMs(toMs(str, FORMAT, 100) + Number($ms.value), FORMAT)
+  const sync = str => fromMs(toMs(str, FORMAT) + Number($ms.value), FORMAT)
 
   const onSyncClick = async () => {
     const { files = [] } = $source
