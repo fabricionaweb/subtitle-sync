@@ -1,6 +1,6 @@
 import { toMs, fromMs } from "../web_modules/hh-mm-ss.mjs"
 
-export const REGEX = /(\d+:\d+:\d+[.,]\d+)(?:,| --> )(\d+:\d+:\d+[.,]\d+)/gm
+export const REGEX = /(\d+:\d+:\d+[\.,]\d+)(?:,| --> )(\d+:\d+:\d+[\.,]\d+)/gm
 const FORMAT = "h:mm:ss.ss"
 
 export const sum = (str, ms) => fromMs(toMs(str, FORMAT) + ms, FORMAT)
