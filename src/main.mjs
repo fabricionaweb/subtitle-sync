@@ -1,10 +1,10 @@
 import { fromMs, toMs } from "./time.mjs"
 
-export const pad = (str, pad = "00") => (pad + str).slice(pad.length * -1)
+export const pad = (str, length = 2) => `${str}`.padStart(length, "0")
 export const REGEX = /(\d+:\d+:\d+[\.,]\d+)(,| --> )(\d+:\d+:\d+[\.,]\d+)/gm
 export const FORMATS = {
-  srt: ({ h, m, s, ms }) => `${pad(h)}:${pad(m)}:${pad(s)},${ms}`,
-  ass: ({ h, m, s, ms }) => `${h}:${pad(m)}:${pad(s)}.${`${ms}`.substring(0, 2)}`,
+  srt: ({ h, m, s, ms }) => `${pad(h)}:${pad(m)}:${pad(s)},${pad(ms, 3)}`,
+  ass: ({ h, m, s, ms }) => `${h}:${pad(m)}:${pad(s)}.${pad(`${ms}`.substring(0, 2))}`,
 }
 
 export const shift = (content, ms) => {
