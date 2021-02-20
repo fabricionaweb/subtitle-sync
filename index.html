@@ -14,8 +14,8 @@
   <body>
     <form data-form>
       <div>
-        <label>Select .ass files</label>
-        <input type="file" accept=".ass" multiple />
+        <label>Select .ass or .srt files</label>
+        <input type="file" accept=".ass,.srt" multiple />
       </div>
       <div>
         <label>Shift (in milliseconds)</label>
@@ -28,6 +28,26 @@
     <a download hidden data-download />
 
     <script src="./web_modules/jszip.min.js"></script>
-    <script type="module" src="./main.mjs"></script>
+    <script type="module">
+      import { shift, download } from "./src/main.mjs"
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const [$source, $ms, $sync] = document.querySelector("[data-form]").elements
+
+        $sync.addEventListener("click", async () => {
+          const { files = [] } = $source
+          if (!files.length) return
+
+          const zip = new JSZip()
+          for (let file of files) {
+            const content = await file.text()
+            zip.file(file.name, shift(content, $ms.valueAsNumber))
+          }
+
+          const blob = await zip.generateAsync({ type: "blob" })
+          download(blob, `Subs ${$ms.value}.zip`)
+        })
+      })
+    </script>
   </body>
 </html>
