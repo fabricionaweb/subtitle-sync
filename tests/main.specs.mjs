@@ -6,27 +6,27 @@ import { REGEX, shift } from "../src/main.mjs"
 
 test("REGEX capture the <start> and <end>", () => {
   assert.equal(Array.from(SRT.matchAll(REGEX)), [
-    ["00:00:04,276 --> 00:00:05,736", "00:00:04,276", "00:00:05,736"],
-    ["00:00:05,820 --> 00:00:07,947", "00:00:05,820", "00:00:07,947"],
+    ["00:00:04,276 --> 00:00:05,736", "00:00:04,276", " --> ", "00:00:05,736"],
+    ["00:00:05,820 --> 00:00:07,947", "00:00:05,820", " --> ", "00:00:07,947"],
   ])
   assert.equal(Array.from(ASS.matchAll(REGEX)), [
-    ["0:00:25.48,0:00:29.73", "0:00:25.48", "0:00:29.73"],
-    ["0:00:45.42,0:00:49.42", "0:00:45.42", "0:00:49.42"],
+    ["0:00:25.48,0:00:29.73", "0:00:25.48", ",", "0:00:29.73"],
+    ["0:00:45.42,0:00:49.42", "0:00:45.42", ",", "0:00:49.42"],
   ])
 })
 
 test("shift() returns the shifted content", () => {
-  //   assert.snapshot(
-  //     shift(SRT, 1000),
-  //     `\
-  // 1
-  // 00:00:04,276 --> 00:00:05,736
-  // <i>Anteriormente em</i> WandaVision...
+  assert.snapshot(
+    shift(SRT, 1000),
+    `\
+  1
+  00:00:05,276 --> 00:00:06,736
+  <i>Anteriormente em</i> WandaVision...
 
-  // 2
-  // 00:00:05,820 --> 00:00:07,947
-  // Você atravessou o limite duas vezes já.`
-  //   )
+  2
+  00:00:06,820 --> 00:00:08,947
+  Você atravessou o limite duas vezes já.`
+  )
   assert.snapshot(
     shift(ASS, 1000),
     `\
