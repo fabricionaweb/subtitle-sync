@@ -9,11 +9,9 @@ export const toMs = time => {
   return h * MS_HOURS + m * MS_MINUTES + s * MS_SECONDS + Math.floor(`.${ms}` * MS_SECONDS)
 }
 
-export const fromMs = time => {
-  const h = Math.floor(time / MS_HOURS)
-  const m = Math.floor((time % MS_HOURS) / MS_MINUTES)
-  const s = Math.floor((time % MS_MINUTES) / MS_SECONDS)
-  const ms = Math.floor(time % MS_SECONDS)
-
-  return [h, m, s, ms]
-}
+export const fromMs = time => ({
+  h: Math.floor(time / MS_HOURS),
+  m: Math.floor((time % MS_HOURS) / MS_MINUTES),
+  s: Math.floor((time % MS_MINUTES) / MS_SECONDS),
+  ms: Math.floor(time % MS_SECONDS),
+})

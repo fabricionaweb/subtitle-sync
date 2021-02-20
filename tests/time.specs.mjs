@@ -19,12 +19,12 @@ test("toMs() returns the miliseconds", () => {
   assert.equal(toMs("0:00:00.99"), 990)
 })
 
-test("fromMs() returns an array with [h, m, s, ms]", () => {
-  assert.equal(fromMs(29730), [0, 0, 29, 730])
-  assert.equal(fromMs(999), [0, 0, 0, 999])
+test("fromMs() returns an object with { h, m, s, ms }", () => {
+  assert.equal(fromMs(29730), { h: 0, m: 0, s: 29, ms: 730 })
+  assert.equal(fromMs(1000), { h: 0, m: 0, s: 1, ms: 0 })
 
-  assert.equal(fromMs(63730), [0, 1, 3, 730])
-  assert.equal(fromMs(99), [0, 0, 0, 99])
+  assert.equal(fromMs(63730), { h: 0, m: 1, s: 3, ms: 730 })
+  assert.equal(fromMs(99), { h: 0, m: 0, s: 0, ms: 99 })
 })
 
 test.run()
